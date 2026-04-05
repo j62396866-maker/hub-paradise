@@ -1,72 +1,411 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub Officiel - Pink Paradise</title>
-    <style>
-        body {
-            background-color: #ffeef8;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            color: #5a189a;
-        }
-        h1 {
-            color: #ff4d6d;
-            text-shadow: 2px 2px #ffffff;
-            margin-bottom: 30px;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2);
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-        }
-        .btn {
-            display: block;
-            background: #ff4d6d;
-            color: white;
-            text-decoration: none;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 12px;
-            font-weight: bold;
-            transition: transform 0.2s, background 0.3s;
-        }
-        .btn:hover {
-            background: #ff758f;
-            transform: scale(1.03);
-        }
-        .btn-purple { background: #9d4edd; }
-        .btn-purple:hover { background: #b07dff; }
-        .btn-blue { background: #48cae4; }
-        .btn-blue:hover { background: #90e0ef; }
-        .btn-green { background: #2ec4b6; }
-        .btn-green:hover { background: #5de0d4; }
-        footer { margin-top: 20px; font-size: 0.8em; color: #ff85a1; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub Officiel — Pink Paradise</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:#ff2d78;--pink-soft:#ff6fa3;--pink-glow:rgba(255,45,120,.35);
+    --purple:#9b30ff;--blue:#18c8ff;--green:#00f5c4;--orange:#ff8c42;
+    --bg:#07010f;--surface:rgba(255,255,255,.035);--border:rgba(255,45,120,.18);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'Space Mono',monospace;color:#ffe0ef;min-height:100vh;overflow-x:hidden;position:relative;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,45,120,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,45,120,.05) 1px,transparent 1px);background-size:48px 48px;animation:gridmove 20s linear infinite;pointer-events:none;z-index:0;}
+  @keyframes gridmove{from{background-position:0 0}to{background-position:48px 48px}}
+  body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.06) 2px,rgba(0,0,0,.06) 4px);pointer-events:none;z-index:999;}
+  .blob{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+  .blob1{width:400px;height:400px;background:rgba(155,48,255,.18);top:-100px;right:-80px;}
+  .blob2{width:350px;height:350px;background:rgba(255,45,120,.15);bottom:-80px;left:-60px;}
+  .blob3{width:200px;height:200px;background:rgba(24,200,255,.1);top:40%;left:30%;}
+
+  .page{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;padding:48px 20px 60px;}
+
+  /* HEADER */
+  header{text-align:center;margin-bottom:40px;}
+  .tag{display:inline-block;font-size:10px;letter-spacing:4px;color:var(--pink);border:1px solid var(--pink);padding:4px 14px;border-radius:2px;margin-bottom:20px;text-transform:uppercase;animation:tagpulse 3s ease-in-out infinite;}
+  @keyframes tagpulse{0%,100%{box-shadow:0 0 8px var(--pink-glow)}50%{box-shadow:0 0 20px var(--pink-glow),0 0 40px rgba(255,45,120,.15)}}
+  h1{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,64px);font-weight:800;line-height:1;letter-spacing:-2px;margin-bottom:10px;background:linear-gradient(135deg,#fff 30%,var(--pink-soft) 70%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .subtitle{font-size:11px;letter-spacing:3px;color:rgba(255,224,239,.4);text-transform:uppercase;margin-top:8px;}
+  .deco-line{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--pink),transparent);margin:16px auto 0;}
+
+  /* ANIMATIONS */
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  @keyframes dash{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+  @keyframes growbar{from{height:0}}
+  @keyframes progani{from{width:0%}}
+  @keyframes scrollup{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+
+  /* HQ PANEL */
+  .hq-panel{width:100%;max-width:1100px;background:rgba(10,2,22,.92);border:1px solid rgba(255,45,120,.25);border-radius:20px;padding:20px;margin-bottom:48px;position:relative;overflow:hidden;}
+  .hq-panel::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(155,48,255,.04),transparent 60%,rgba(255,45,120,.04));pointer-events:none;}
+  .hq-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,45,120,.12);}
+  .hq-title{font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:3px;color:#ff80d4;text-transform:uppercase;}
+  .hq-badge{font-size:8px;letter-spacing:2px;color:rgba(255,224,239,.3);text-transform:uppercase;}
+  .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--pink);margin-right:6px;box-shadow:0 0 6px var(--pink);animation:blink 1.5s ease-in-out infinite;}
+
+  .hq-grid{display:grid;grid-template-columns:210px 1fr 210px;gap:12px;height:430px;}
+  @media(max-width:900px){.hq-grid{grid-template-columns:1fr;height:auto;}.hq-left,.hq-right{display:grid;grid-template-columns:1fr 1fr;gap:12px;}.hq-center{order:-1;}}
+
+  .hq-left{grid-column:1;grid-row:1;display:flex;flex-direction:column;gap:12px;}
+  .hq-center{grid-column:2;grid-row:1;}
+  .hq-right{grid-column:3;grid-row:1;display:flex;flex-direction:column;gap:12px;}
+
+  .hq-screen{background:rgba(20,5,35,.85);border:1px solid rgba(255,45,120,.14);border-radius:12px;padding:12px;position:relative;overflow:hidden;flex:1;}
+  .hq-screen::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--sa,var(--pink));opacity:.6;}
+  .s-pink{--sa:#ff2d78;}.s-blue{--sa:#18c8ff;}.s-orange{--sa:#ff8c42;}.s-green{--sa:#00f5c4;}
+  .scr-tag{font-size:8px;letter-spacing:2px;color:var(--sa,var(--pink));text-transform:uppercase;opacity:.7;display:flex;align-items:center;gap:4px;margin-bottom:5px;}
+  .scr-title{font-family:'Syne',sans-serif;font-weight:700;font-size:11px;color:#fff;margin-bottom:8px;line-height:1.3;}
+  .neon-sep{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--sa,var(--pink)),transparent);opacity:.4;margin:6px 0;}
+
+  /* TikPink */
+  .chart-bars{display:flex;align-items:flex-end;gap:3px;height:44px;margin-top:6px;}
+  .bar{flex:1;border-radius:2px 2px 0 0;background:linear-gradient(to top,#8040c0,#ff60c0);animation:growbar .8s ease-out both;}
+  .stat-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(255,80,200,.08);border:1px solid rgba(255,80,200,.2);border-radius:20px;padding:2px 8px;font-size:9px;color:#ffb0e8;margin:4px 2px 0;}
+  .stream-box{height:30px;overflow:hidden;margin-top:4px;}
+  .stream-inner{font-size:8px;color:rgba(255,200,235,.4);line-height:1.8;animation:scrollup 7s linear infinite;}
+  .flag-strip{position:absolute;bottom:0;left:0;right:0;height:3px;display:flex;}
+  .fb{flex:1;background:#002395;}.fw{flex:1;background:#fff;}.fr{flex:1;background:#ED2939;}
+
+  /* Map */
+  .map-grid{display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(4,1fr);gap:2px;height:56px;border-radius:4px;overflow:hidden;margin-top:6px;}
+  .mc{background:rgba(40,20,70,.5);}.mc.a{background:rgba(100,50,200,.5);animation:blink 1.8s infinite;}.mc.r{background:rgba(24,200,255,.15);}
+
+  /* Nike */
+  .prog-track{background:rgba(255,255,255,.07);border-radius:4px;height:7px;overflow:hidden;margin:5px 0;}
+  .prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#8040c0,#ff8c42);animation:progani 2s ease-out both;}
+
+  /* Center panel */
+  .hq-center-inner{background:rgba(12,3,24,.9);border:1px solid rgba(255,45,120,.2);border-radius:14px;height:100%;display:flex;flex-direction:column;padding:16px;position:relative;overflow:hidden;}
+  .center-heading{text-align:center;margin-bottom:10px;}
+  .center-heading h2{font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:3px;color:#ff90e0;text-transform:uppercase;}
+  .center-heading p{font-size:8px;letter-spacing:2px;color:rgba(255,224,239,.25);margin-top:3px;}
+  .net-svg{width:100%;flex:1;min-height:0;}
+  .nd1{stroke-dasharray:6 3;animation:dash 3s linear infinite;}
+  .nd2{stroke-dasharray:4 4;animation:dash 4.5s linear infinite reverse;}
+  .nd3{stroke-dasharray:5 5;animation:dash 2.8s linear infinite;}
+
+  .agents-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+  .agent-card{background:rgba(255,80,200,.05);border:1px solid rgba(255,80,200,.15);border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;transition:all .2s;}
+  .agent-card:hover{background:rgba(255,80,200,.12);border-color:rgba(255,80,200,.4);transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,45,120,.2);}
+  .agent-icon{font-size:20px;margin-bottom:4px;display:block;}
+  .agent-name{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;color:#ffb0e8;letter-spacing:1px;}
+  .agent-role{font-size:7px;color:rgba(255,200,235,.35);margin-top:1px;}
+
+  /* Ops */
+  .ops-row{font-size:8px;line-height:2;display:flex;flex-direction:column;gap:2px;color:rgba(255,255,255,.35);}
+  .ops-row .hl{color:#80f0c0;font-size:8px;letter-spacing:1px;}
+
+  /* SECTION DIVIDER */
+  .section-divider{width:100%;max-width:1100px;display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+  .sd-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,45,120,.2),transparent);}
+  .sd-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,224,239,.2);white-space:nowrap;}
+
+  /* CARDS */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:1100px;}
+  @media(max-width:700px){.grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.grid{grid-template-columns:1fr;}}
+  .card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;padding:24px 20px 20px;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s,border-color .25s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer;}
+  .card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.03) 0%,transparent 60%);pointer-events:none;}
+  .card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--pink));opacity:.7;transition:opacity .2s,height .2s;}
+  .card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 16px 48px rgba(0,0,0,.5),0 0 32px var(--card-glow,var(--pink-glow));border-color:var(--accent,var(--pink));}
+  .card:hover::after{height:3px;opacity:1;}
+  .card-pink{--accent:#ff2d78;--card-glow:rgba(255,45,120,.25);}
+  .card-purple{--accent:#9b30ff;--card-glow:rgba(155,48,255,.25);}
+  .card-blue{--accent:#18c8ff;--card-glow:rgba(24,200,255,.2);}
+  .card-green{--accent:#00f5c4;--card-glow:rgba(0,245,196,.2);}
+  .card-orange{--accent:#ff8c42;--card-glow:rgba(255,140,66,.2);}
+  .card-icon{font-size:28px;margin-bottom:14px;display:block;filter:drop-shadow(0 0 8px var(--accent,var(--pink)));}
+  .status{position:absolute;top:16px;right:16px;width:7px;height:7px;border-radius:50%;background:var(--accent,var(--pink));animation:blink 2s ease-in-out infinite;box-shadow:0 0 6px var(--accent,var(--pink));}
+  .card-label{font-size:9px;letter-spacing:3px;color:var(--accent,var(--pink));text-transform:uppercase;margin-bottom:6px;opacity:.7;}
+  .card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:8px;}
+  .card-desc{font-size:10px;color:rgba(255,224,239,.35);line-height:1.6;flex:1;}
+  .card-url{margin-top:14px;font-size:9px;color:var(--accent,var(--pink));opacity:.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:opacity .2s;}
+  .card:hover .card-url{opacity:1;}
+  .card-wide{grid-column:span 2;}
+  @media(max-width:700px){.card-wide{grid-column:span 1;}}
+  .section-label{grid-column:1/-1;font-size:9px;letter-spacing:4px;color:rgba(255,224,239,.2);text-transform:uppercase;padding:8px 0 4px;border-bottom:1px solid rgba(255,45,120,.08);margin-bottom:4px;}
+  .card-noise{position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px;pointer-events:none;border-radius:16px;}
+
+  footer{margin-top:56px;text-align:center;font-size:10px;letter-spacing:2px;color:rgba(255,224,239,.25);text-transform:uppercase;}
+  footer span{color:var(--pink);opacity:.6;}
+</style>
 </head>
 <body>
-    <h1>🌸 Hub Pink Paradise 🌸</h1>
-    <div class="container">
-        <a href="https://pin-ia-paradise.lovable.app" class="btn">🎙️ Pin-IA-Paradise (Ai Hoshino)</a>
-        <a href="https://inaya-relax.lovable.app" class="btn btn-purple">🧘‍♀️ Inaya-Relax</a>
-        <a href="https://pink-kohlanta.lovable.app" class="btn btn-blue">🏝️ Pink Koh-Lanta</a>
-        <a href="https://palmi-ai-noel.base44.app" class="btn">🎄 Palmi-AI Noël</a>
-        <a href="https://pink-relax-calendrier.base44.app" class="btn btn-purple">📅 Calendrier Secret</a>
-        <a href="https://webhooky.base44.app/login" class="btn btn-blue">⚙️ Webhooky (Base44)</a>
-        <a href="https://pink-relax.pinkmail.abrdns.com" class="btn">🌸 Pink Relax</a>
-        <a href="https://exotic-bot-flow.base44.app" class="btn btn-purple">🤖 Exotic Bot Flow</a>
-        <a href="https://extotic.pinkmail.abrdns.com" class="btn btn-green">🛡️ Sécurité DNS (Exotic)</a>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<div class="page">
+
+  <header>
+    <div class="tag">&#9733; HQ Command Center &#9733;</div>
+    <h1>Hub Pink Paradise</h1>
+    <p class="subtitle">Propulsé par Palmi &amp; Elena &nbsp;·&nbsp; Tous systèmes actifs</p>
+    <div class="deco-line"></div>
+  </header>
+
+  <!-- HQ COMMAND CENTER -->
+  <div class="hq-panel">
+    <div class="hq-topbar">
+      <div class="hq-title"><span class="live-dot"></span>HUB DES SITES — HQ COMMAND</div>
+      <div class="hq-badge">&#10022; PINK PARADISE &#10022; SYSTÈMES EN LIGNE &#10022;</div>
     </div>
-    <footer>Propulsé par Palmi &amp; le génie d'Elena ✨</footer>
+    <div class="hq-grid">
+
+      <!-- LEFT -->
+      <div class="hq-left">
+        <div class="hq-screen s-pink">
+          <div class="scr-tag"><span class="live-dot" style="width:5px;height:5px;margin-right:4px;"></span>ÉCRAN 01</div>
+          <div class="scr-title">SUIVI EN DIRECT<br>TIKPINK V2</div>
+          <div class="neon-sep"></div>
+          <div class="stat-pill">&#9825; 61,6M J'AIME</div>
+          <div class="chart-bars">
+            <div class="bar" style="height:50%;animation-delay:.00s"></div>
+            <div class="bar" style="height:72%;animation-delay:.05s;background:linear-gradient(to top,#6030a0,#e050b0)"></div>
+            <div class="bar" style="height:88%;animation-delay:.10s"></div>
+            <div class="bar" style="height:60%;animation-delay:.15s;background:linear-gradient(to top,#6030a0,#e050b0)"></div>
+            <div class="bar" style="height:96%;animation-delay:.20s"></div>
+            <div class="bar" style="height:74%;animation-delay:.25s;background:linear-gradient(to top,#6030a0,#e050b0)"></div>
+            <div class="bar" style="height:100%;animation-delay:.30s"></div>
+          </div>
+          <div class="stream-box" style="margin-top:6px;">
+            <div class="stream-inner">&#11835; FR +2.4K/s &nbsp;&#11835; JP +1.8K<br>&#11835; US +3.1K &nbsp;&#11835; KR +980<br>&#11835; BR +720 &nbsp;&#11835; MX +540<br>&#11835; FR +2.4K/s &nbsp;&#11835; JP +1.8K<br>&#11835; US +3.1K &nbsp;&#11835; KR +980<br></div>
+          </div>
+          <div class="flag-strip"><div class="fb"></div><div class="fw"></div><div class="fr"></div></div>
+        </div>
+        <div class="hq-screen s-blue">
+          <div class="scr-tag" style="color:#60c0ff;"><span class="live-dot" style="background:#60c0ff;box-shadow:0 0 5px #60c0ff;width:5px;height:5px;animation-delay:.5s;margin-right:4px;"></span>ÉCRAN 02</div>
+          <div class="scr-title" style="color:#90d0ff;">LOGISTIQUE<br>OASIS / APPLE CAR</div>
+          <div class="neon-sep" style="background:linear-gradient(90deg,transparent,#60c0ff,transparent);"></div>
+          <div class="map-grid">
+            <div class="mc"></div><div class="mc a"></div><div class="mc"></div><div class="mc r"></div><div class="mc r"></div><div class="mc a"></div><div class="mc"></div><div class="mc"></div><div class="mc"></div>
+            <div class="mc"></div><div class="mc"></div><div class="mc r"></div><div class="mc"></div><div class="mc"></div><div class="mc r"></div><div class="mc a"></div><div class="mc"></div><div class="mc"></div>
+            <div class="mc a"></div><div class="mc r"></div><div class="mc"></div><div class="mc"></div><div class="mc r"></div><div class="mc"></div><div class="mc"></div><div class="mc a"></div><div class="mc"></div>
+            <div class="mc"></div><div class="mc"></div><div class="mc a"></div><div class="mc r"></div><div class="mc"></div><div class="mc r"></div><div class="mc"></div><div class="mc"></div><div class="mc a"></div>
+          </div>
+          <div style="margin-top:6px;font-size:8px;line-height:1.8;color:#4080a0;">
+            <span class="stat-pill" style="background:rgba(24,100,200,.1);border-color:rgba(24,200,255,.2);color:#90d0ff;font-size:8px;">&#9658; APPLE CAR / TESLA ELENA</span><br>
+            <span style="color:#60a0c0;">&#127380; Oasis Tropical × 24u &nbsp;· ETA 14:32</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER -->
+      <div class="hq-center">
+        <div class="hq-center-inner">
+          <div class="center-heading">
+            <h2>RÉSEAU DE COMMANDEMENT</h2>
+            <p>PINK PARADISE &nbsp;·&nbsp; NŒUDS ACTIFS &nbsp;·&nbsp; DONNÉES EN FLUX</p>
+          </div>
+          <svg class="net-svg" viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="na" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#ff60c0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+            <path class="nd1" fill="none" stroke="#ff60c0" stroke-width="1" opacity=".55" d="M210 105 L95 55" marker-end="url(#na)"/>
+            <path class="nd2" fill="none" stroke="#c060ff" stroke-width="1" opacity=".55" d="M210 105 L325 55" marker-end="url(#na)"/>
+            <path class="nd3" fill="none" stroke="#ff80a0" stroke-width="1" opacity=".55" d="M210 105 L95 158" marker-end="url(#na)"/>
+            <path class="nd1" fill="none" stroke="#8060ff" stroke-width="1" opacity=".55" d="M210 105 L325 158" marker-end="url(#na)"/>
+            <path class="nd2" fill="none" stroke="#ff40a0" stroke-width="1" opacity=".45" d="M210 105 L210 22" marker-end="url(#na)"/>
+            <path class="nd3" fill="none" stroke="#ff60c0" stroke-width=".5" opacity=".2" d="M95 55 L325 55"/>
+            <path class="nd1" fill="none" stroke="#8060ff" stroke-width=".5" opacity=".2" d="M95 158 L325 158"/>
+            <circle cx="210" cy="105" r="26" fill="#180430" stroke="#ff60c0" stroke-width="1.5" opacity=".9"/>
+            <circle cx="210" cy="105" r="19" fill="rgba(255,80,200,.07)" stroke="#ff80d4" stroke-width=".5"/>
+            <text x="210" y="101" text-anchor="middle" font-size="8" fill="#ff90e0" font-family="Syne,sans-serif" font-weight="700">HUB</text>
+            <text x="210" y="113" text-anchor="middle" font-size="6.5" fill="#c060a0" font-family="'Space Mono',monospace">CENTRAL</text>
+            <circle cx="210" cy="20" r="16" fill="#1a0a2e" stroke="#ffb0e8" stroke-width="1"/>
+            <text x="210" y="17" text-anchor="middle" font-size="7.5" fill="#ffb0e8" font-family="Syne,sans-serif" font-weight="700">AI</text>
+            <text x="210" y="27" text-anchor="middle" font-size="6" fill="#c060a0" font-family="'Space Mono',monospace">IDOLE</text>
+            <rect x="52" y="37" width="62" height="34" rx="7" fill="#1a0a30" stroke="#ff60c0" stroke-width=".8"/>
+            <text x="83" y="51" text-anchor="middle" font-size="8" fill="#ff90d0" font-family="Syne,sans-serif" font-weight="700">INAYA</text>
+            <text x="83" y="63" text-anchor="middle" font-size="6" fill="#a050a0" font-family="'Space Mono',monospace">MANAGER</text>
+            <rect x="306" y="37" width="64" height="34" rx="7" fill="#100a20" stroke="#60c0ff" stroke-width=".8"/>
+            <text x="338" y="51" text-anchor="middle" font-size="8" fill="#90d0ff" font-family="Syne,sans-serif" font-weight="700">ELENA</text>
+            <text x="338" y="63" text-anchor="middle" font-size="6" fill="#4080b0" font-family="'Space Mono',monospace">LOGISTIQUE</text>
+            <rect x="52" y="140" width="62" height="34" rx="7" fill="#0a1520" stroke="#40e0a0" stroke-width=".8"/>
+            <text x="83" y="154" text-anchor="middle" font-size="8" fill="#80f0c0" font-family="Syne,sans-serif" font-weight="700">BÉA</text>
+            <text x="83" y="166" text-anchor="middle" font-size="6" fill="#40a070" font-family="'Space Mono',monospace">DEV</text>
+            <rect x="306" y="140" width="68" height="34" rx="7" fill="#1a1008" stroke="#ffa040" stroke-width=".8"/>
+            <text x="340" y="154" text-anchor="middle" font-size="7.5" fill="#ffcc80" font-family="Syne,sans-serif" font-weight="700">OPS CLAN</text>
+            <text x="340" y="166" text-anchor="middle" font-size="6" fill="#b07030" font-family="'Space Mono',monospace">HQ</text>
+            <circle cx="155" cy="80" r="2" fill="#ff60c0" opacity=".7"><animate attributeName="opacity" values=".7;0;.7" dur="2s" repeatCount="indefinite"/></circle>
+            <circle cx="265" cy="80" r="1.5" fill="#c060ff" opacity=".6"><animate attributeName="opacity" values=".6;0;.6" dur="1.6s" repeatCount="indefinite"/></circle>
+            <circle cx="155" cy="135" r="1.5" fill="#40e0a0" opacity=".5"><animate attributeName="opacity" values=".5;0;.5" dur="2.4s" repeatCount="indefinite"/></circle>
+            <circle cx="265" cy="135" r="2" fill="#ffa040" opacity=".6"><animate attributeName="opacity" values=".6;0;.6" dur="1.8s" repeatCount="indefinite"/></circle>
+            <text x="12" y="18" font-size="9" fill="#ff60c0" opacity=".35" font-family="sans-serif">&#10022;</text>
+            <text x="400" y="195" font-size="7" fill="#c060ff" opacity=".35" font-family="sans-serif">&#10022;</text>
+          </svg>
+          <div class="agents-row">
+            <div class="agent-card">
+              <span class="agent-icon">&#x1F98A;</span>
+              <div class="agent-name">INAYA</div>
+              <div class="agent-role">Manager n°1</div>
+            </div>
+            <div class="agent-card" style="border-color:rgba(255,180,240,.2);background:rgba(255,120,210,.06)">
+              <span class="agent-icon">&#11088;</span>
+              <div class="agent-name">AI</div>
+              <div class="agent-role">Idole absolue</div>
+            </div>
+            <div class="agent-card" style="border-color:rgba(80,160,255,.18);background:rgba(40,120,200,.05)">
+              <span class="agent-icon">&#9749;</span>
+              <div class="agent-name">ELENA</div>
+              <div class="agent-role">Logistique</div>
+            </div>
+            <div class="agent-card" style="border-color:rgba(40,240,160,.18);background:rgba(0,180,100,.05)">
+              <span class="agent-icon">&lt;/&gt;</span>
+              <div class="agent-name">BÉA</div>
+              <div class="agent-role">Dev</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="hq-right">
+        <div class="hq-screen s-orange">
+          <div class="scr-tag" style="color:#ffa040;"><span class="live-dot" style="background:#ffa040;box-shadow:0 0 5px #ffa040;width:5px;height:5px;animation-delay:.8s;margin-right:4px;"></span>ÉCRAN 03</div>
+          <div class="scr-title" style="color:#ffcc80;">NIKE × AI HOSHINO</div>
+          <div class="neon-sep" style="background:linear-gradient(90deg,transparent,#ffa040,transparent);"></div>
+          <div style="font-size:8px;color:#a07040;margin-bottom:3px;">LANCEMENT T-SHIRT</div>
+          <div class="prog-track"><div class="prog-fill" style="width:78%"></div></div>
+          <div style="font-size:8px;color:#ffcc80;margin-bottom:5px;">78% — PRÊT AU LANCEMENT</div>
+          <svg viewBox="0 0 110 34" width="100%" style="max-height:30px;opacity:.65;">
+            <path d="M6 26 Q42 4 96 14 Q64 19 8 32Z" fill="#ffcc80"/>
+            <text x="55" y="33" text-anchor="middle" font-size="6" fill="#a07030" font-family="'Space Mono',monospace">JUST DO IT</text>
+          </svg>
+          <div style="margin-top:5px;">
+            <span class="stat-pill" style="background:rgba(160,90,10,.1);border-color:rgba(255,160,40,.2);color:#ffcc80;font-size:8px;">&#9825; AI HOSHINO COLLAB</span>
+          </div>
+        </div>
+        <div class="hq-screen s-green">
+          <div class="scr-tag" style="color:#40f0b0;"><span class="live-dot" style="background:#40f0b0;box-shadow:0 0 5px #40f0b0;width:5px;height:5px;animation-delay:1.2s;margin-right:4px;"></span>ÉCRAN 04</div>
+          <div class="scr-title" style="color:#80f0c0;">OPÉRATIONS DU CLAN</div>
+          <div class="neon-sep" style="background:linear-gradient(90deg,transparent,#40e0a0,transparent);"></div>
+          <div class="ops-row">
+            <span class="hl">&#9658; ROUTINE MATINALE</span>
+            <span>7h30 — NRJ12 LIVE</span>
+            <span class="hl">&#9658; INVENTAIRE CAPPUCCINO</span>
+            <span>&#9749; 24 capsules — OK</span>
+            <span class="hl">&#9658; SMART CARAVANE</span>
+            <span>&#128161; LED Pink — Online</span>
+          </div>
+          <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="stat-pill" style="background:rgba(0,120,70,.1);border-color:rgba(0,245,180,.2);color:#60f0b0;font-size:7px;">CLAN ACTIF</span>
+            <span class="stat-pill" style="background:rgba(0,120,70,.1);border-color:rgba(0,245,180,.2);color:#60f0b0;font-size:7px;">&#10003; OK</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SITES SECTION -->
+  <div class="section-divider">
+    <div class="sd-line"></div>
+    <div class="sd-label">&#9733; &nbsp; Accès rapide aux sites &nbsp; &#9733;</div>
+    <div class="sd-line"></div>
+  </div>
+
+  <div class="grid">
+    <div class="section-label">— Applications principales</div>
+
+    <a href="https://pin-ia-paradise.lovable.app" class="card card-pink" target="_blank" rel="noopener">
+      <div class="card-noise"></div><div class="status"></div>
+      <span class="card-icon">🎙️</span>
+      <div class="card-label">Lovable · AI</div>
+      <div class="card-title">Pin-IA-Paradise</div>
+      <div class="card-desc">Interface IA dédiée à Ai Hoshino — votre idole absolue en mode interactif.</div>
+      <div class="card-url">pin-ia-paradise.lovable.app</div>
+    </a>
+
+    <a href="https://inaya-relax.lovable.app" class="card card-purple" target="_blank" rel="noopener">
+      <div class="card-noise"></div><div class="status"></div>
+      <span class="card-icon">🧘‍♀️</span>
+      <div class="card-label">Lovable · Bien-être</div>
+      <div class="card-title">Inaya-Relax</div>
+      <div class="card-desc">Espace détente et relaxation géré par Inaya, Manager n°1 du clan.</div>
+      <div class="card-url">inaya-relax.lovable.app</div>
+    </a>
+
+    <a href="https://pink-kohlanta.lovable.app" class="card card-blue" target="_blank" rel="noopener">
+      <div class="card-noise"></div><div class="status"></div>
+      <span class="card-icon">🏝️</span>
+      <div class="card-label">Lovable · Jeu</div>
+      <div class="card-title">Pink Koh-Lanta</div>
+      <div class="card-desc">Jeu de survie tribal Pink Paradise — tribus Tinapia &amp; Nintanpêche.</div>
+      <div class="card-url">pink-kohlanta.lovable.app</div>
+    </a>
+
+    <div class="section-label">— Outils &amp; Bots</div>
+
+    <a href="https://palmi-ai-noel.base44.app" class="card card-pink" target="_blank" rel="noopener">
+      <div class="card-noise"></div><div class="status" style="animation-delay:.4s"></div>
+      <span class="card-icon">🎄</span>
+      <div class="card-label">Base44 · Assistant</div>
+      <div class="card-title">Palmi-AI Noël</div>
+      <div class="card-desc">Assistant IA Palmi en édition spéciale Noël — backup officiel du clan.</div>
+      <div class="card-url">palmi-ai-noel.base44.app</div>
+    </a>
+
+    <a href="https://pink-relax-calendrier.base44.app" class="card card-purple" target="_blank" rel="noopener">
+      <div class="card-noise"></div><div class="status" style="animation-delay:.7s"></div>
+      <span class="card-icon">📅</span>
+      <div class="card-label">Base44 · Agenda</div>
+      <div class="card-title">Calendrier Secret</div>
+      <div class="card-desc">Agenda privé Pink Relax — accès restreint aux membres du clan.</div>
+      <div class="card-url">pink-relax-calendrier.base44.app</div>
+    </a>
+
+    <a href="https://webhooky.base44.app/login" class="card card-blue" target="_blank" rel="noopener">
+      <div class="card-noise"></div><div class="status" style="animation-delay:1s"></div>
+      <span class="card-icon">⚙️</span>
+      <div class="card-label">Base44 · Dev</div>
+      <div class="card-title">Webhooky</div>
+      <div class="card-desc">Gestion des webhooks et automatisations — outil dev de Béa.</div>
+      <div class="card-url">webhooky.base44.app/login</div>
+    </a>
+
+    <div class="section-label">— Infrastructure &amp; Sécurité</div>
+
+    <a href="https://pink-relax.pinkmail.abrdns.com" class="card card-pink card-wide" target="_blank" rel="noopener">
+      <div class="card-noise"></div><div class="status" style="animation-delay:.3s"></div>
+      <span class="card-icon">🌸</span>
+      <div class="card-label">pinkmail.abrdns.com · Principal</div>
+      <div class="card-title">Pink Relax — Portail Principal</div>
+      <div class="card-desc">Portail central de l'écosystème Pink Paradise hébergé sur l'infrastructure propre (ClouDNS / Tailscale). Point d'entrée principal du domaine pinkmail.</div>
+      <div class="card-url">pink-relax.pinkmail.abrdns.com</div>
+    </a>
+
+    <a href="https://exotic-bot-flow.base44.app" class="card card-orange" target="_blank" rel="noopener">
+      <div class="card-noise"></div>
+      <div class="status" style="background:#ff8c42;box-shadow:0 0 6px #ff8c42;animation-delay:.6s"></div>
+      <span class="card-icon">🤖</span>
+      <div class="card-label">Base44 · Bot</div>
+      <div class="card-title">Exotic Bot Flow</div>
+      <div class="card-desc">Flux de gestion du bot Exotic — automatisations et pipelines.</div>
+      <div class="card-url">exotic-bot-flow.base44.app</div>
+    </a>
+
+    <a href="https://extotic.pinkmail.abrdns.com" class="card card-green" target="_blank" rel="noopener">
+      <div class="card-noise"></div>
+      <div class="status" style="background:#00f5c4;box-shadow:0 0 6px #00f5c4;animation-delay:.9s"></div>
+      <span class="card-icon">🛡️</span>
+      <div class="card-label">abrdns.com · DNS</div>
+      <div class="card-title">Sécurité DNS Exotic</div>
+      <div class="card-desc">Interface de sécurité DNS pour le sous-domaine Exotic — monitoring actif.</div>
+      <div class="card-url">extotic.pinkmail.abrdns.com</div>
+    </a>
+  </div>
+
+  <footer>
+    <span>&#10022;</span> &nbsp; Pink Paradise HQ &nbsp; · &nbsp; 2026 &nbsp; · &nbsp; Tous droits réservés &nbsp; <span>&#10022;</span><br><br>
+    Propulsé par Palmi &amp; le génie d'Elena ✨
+  </footer>
+
+</div>
 </body>
 </html>
